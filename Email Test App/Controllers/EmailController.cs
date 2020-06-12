@@ -21,42 +21,57 @@ namespace Email_Test_App.Controllers
         [HttpPost]
         public IActionResult Index(Email model)
         {
-            using (MailMessage mm = new MailMessage(model.Login, model.To))
+            if (ModelState.IsValid)
             {
-                mm.Subject = model.Subject;
-                mm.Body = model.Body;
-                if(model.CC != null)
+                string exmsg = "";
+                try
                 {
-                   mm.CC.Add(model.CC);
-                }
-                if (model.BCC != null)
-                {
-                    mm.Bcc.Add(model.BCC);
-                }
-                mm.IsBodyHtml = false;
-                if (model.Attachment !=null)
-                {
-                    foreach (var file in model.Attachment)
+                    using (MailMessage mm = new MailMessage(model.Login, model.To))
                     {
-                        string fileName = Path.GetFileName(file.FileName);
-                        mm.Attachments.Add(new Attachment(file.OpenReadStream(), fileName));
-                    }
-                    
-                }
-                using (SmtpClient smtp = new SmtpClient())
-                {
-                    smtp.Host = model.ServerAddress;
-                    smtp.EnableSsl = model.IsSSL;
-                    NetworkCredential NetworkCred = new NetworkCredential(model.Login, model.Password) ;
-                    smtp.UseDefaultCredentials = true;
-                    smtp.Credentials = NetworkCred;
-                    smtp.Port = model.Port;
-                    smtp.Send(mm);
-                    ViewBag.Message = "Email sent.";
-                }
-            }
+                        mm.Subject = model.Subject;
+                        mm.Body = model.Body;
+                        if (model.CC != null)
+                        {
+                            mm.CC.Add(model.CC);
+                        }
+                        if (model.BCC != null)
+                        {
+                            mm.Bcc.Add(model.BCC);
+                        }
+                        mm.IsBodyHtml = true;
+                        if (model.Attachment != null)
+                        {
+                            foreach (var file in model.Attachment)
+                            {
+                                string fileName = Path.GetFileName(file.FileName);
+                                mm.Attachments.Add(new Attachment(file.OpenReadStream(), fileName));
+                            }
 
+                        }
+                        using (SmtpClient smtp = new SmtpClient())
+                        {
+                            smtp.Host = model.ServerAddress;
+                            smtp.EnableSsl = model.IsSSL;
+                            NetworkCredential NetworkCred = new NetworkCredential(model.Login, model.Password);
+                            smtp.UseDefaultCredentials = true;
+                            smtp.Credentials = NetworkCred;
+                            smtp.Port = model.Port;
+                            smtp.Send(mm);
+                            ModelState.Clear();
+                            ViewBag.Message = "Email has been sent successfully.";
+                        }
+                    }
+                }
+
+
+                catch (Exception ex)
+                {
+                    exmsg = ex.Message;
+                    ViewBag.Error = exmsg;
+                }
+                
+            }
             return View();
-        }
+         }
     }
-}
+   }

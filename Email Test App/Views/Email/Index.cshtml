@@ -8,19 +8,20 @@
     <h3>Email Testing Application</h3>
 </div>
 <hr />
+
 <div class="col-md-8 offset-md-2">
     <div>
-        <form asp-action="Index" asp-controller="Email" method="post" enctype="multipart/form-data">
+        <form asp-action="Index" asp-controller="Email" method="post" enctype="multipart/form-data" id="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label  asp-for="ServerAddress">SMTP Server Address</label>
-                    <input type="text" class="form-control"  asp-for="ServerAddress" required>
+                    <label asp-for="ServerAddress">SMTP Server Address</label>
+                    <input type="text" class="form-control" asp-for="ServerAddress">
                     <span asp-validation-for="ServerAddress" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-4">
                     <label asp-for="Port">SMTP Port</label>
-                    <input type="number" class="form-control" asp-for="Port" required>
+                    <input type="number" class="form-control" asp-for="Port">
                     <span asp-validation-for="Port" class="text-danger"></span>
 
                 </div>
@@ -33,12 +34,13 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label asp-for="Login" >SMTP Login</label>
-                    <input type="text" class="form-control" asp-for="Login" required>
+                    <label asp-for="Login">SMTP Login</label>
+                    <input type="email" class="form-control" asp-for="Login">
+                    <span asp-validation-for="Login" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
                     <label asp-for="Password">SMTP Password</label>
-                    <input type="password" class="form-control" asp-for="Password" required>
+                    <input type="password" class="form-control" asp-for="Password">
                     <span asp-validation-for="Password" class="text-danger"></span>
 
                 </div>
@@ -47,7 +49,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text btn-primary">To</span>
                 </div>
-                <input type="text" class="form-control" asp-for="To" required>
+                <input type="text" class="form-control" asp-for="To">
                 <span asp-validation-for="To" class="text-danger"></span>
 
             </div>
@@ -68,7 +70,7 @@
 
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" asp-for="Subject" placeholder="Add Subject" required>
+                <input type="text" class="form-control" asp-for="Subject" placeholder="Add Subject">
                 <span asp-validation-for="Subject" class="text-danger"></span>
 
             </div>
@@ -76,10 +78,30 @@
                 <input type="file" class="form-control-file" asp-for="Attachment" multiple>
             </div>
             <div class="form-group">
-                <textarea class="form-control" asp-for="Body" rows="5" placeholder="Type your message here..." required></textarea>
+                <textarea class="form-control" asp-for="Body" rows="5" placeholder="Type your message here..."></textarea>
             </div>
             <button type="submit" value="Save" class="btn btn-block btn-primary">Send Mail</button>
         </form>
     </div>
 </div>
 
+@if (ViewBag.Message != null)
+{
+<script type="text/javascript">
+
+            window.onload = function () {
+                swal("You made it!","@ViewBag.Message", "success");
+        };
+
+</script>
+}
+@if (ViewBag.Error != null)
+{
+<script type="text/javascript">
+
+            window.onload = function () {
+                swal("Oops!", "@ViewBag.Error", "error");
+        };
+
+</script>
+}
