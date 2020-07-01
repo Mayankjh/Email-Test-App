@@ -15,7 +15,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label asp-for="ServerAddress">SMTP Server Address</label>
+                    <label asp-for="ServerAddress">SMTP Server</label>
                     <input type="text" class="form-control" asp-for="ServerAddress">
                     <span asp-validation-for="ServerAddress" class="text-danger"></span>
                 </div>
@@ -34,7 +34,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label asp-for="Login">SMTP Login</label>
+                    <label asp-for="Login">SMTP Username</label>
                     <input type="email" class="form-control" asp-for="Login">
                     <span asp-validation-for="Login" class="text-danger"></span>
                 </div>
@@ -45,6 +45,26 @@
 
                 </div>
             </div>
+            <div class="form-row">
+                <div class="input-group col-md-6">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text btn-primary">From</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="From">
+                    <span asp-validation-for="From" class="text-danger"></span>
+
+                </div>
+                <div class="input-group col-md-6">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text btn-primary">FromName</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="FromName">
+                    <span asp-validation-for="FromName" class="text-danger"></span>
+
+                </div>
+                
+            </div>
+            <br />
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text btn-primary">To</span>
@@ -78,7 +98,7 @@
                 <input type="file" class="form-control-file" asp-for="Attachment" multiple>
             </div>
             <div class="form-group">
-                <textarea class="form-control" asp-for="Body" rows="5" placeholder="Type your message here..."></textarea>
+                <textarea class="form-control" asp-for="Body" rows="5" placeholder="Type your message here..." required></textarea>
             </div>
             <button type="submit" value="Save" class="btn btn-block btn-primary">Send Mail</button>
         </form>

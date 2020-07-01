@@ -26,8 +26,9 @@ namespace Email_Test_App.Controllers
                 string exmsg = "";
                 try
                 {
-                    using (MailMessage mm = new MailMessage(model.Login, model.To))
+                    using (MailMessage mm = new MailMessage(model.From, model.To))
                     {
+                        mm.From = new MailAddress(model.From, model.FromName);
                         mm.Subject = model.Subject;
                         mm.Body = model.Body;
                         if (model.CC != null)

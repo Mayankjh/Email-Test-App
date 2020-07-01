@@ -11,7 +11,7 @@ namespace Email_Test_App.Models
     {
         [Required]
         public string ServerAddress { get; set; }
-        [RegularExpression(@"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"),Required]
+        [Required]
         public string Login { get; set; }
         [Required]
         public string Password { get; set; }
@@ -19,10 +19,16 @@ namespace Email_Test_App.Models
         public bool IsSSL { get; set; }
         [Required]
         public int Port { get; set; }
+        [Required]
+        public string From { get; set; }
+        [Required]
+        public string FromName{ get; set; }
 
         [Required]
         public string To { get; set; }
+        
         public string CC { get; set; }
+       
         public string BCC { get; set; }
         public List<IFormFile> Attachment { get; set; }
         [Required]
